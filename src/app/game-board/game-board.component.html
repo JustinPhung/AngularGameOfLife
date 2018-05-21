@@ -1,0 +1,9 @@
+<div class="container" #container>
+  <table>
+    <tr *ngFor="let column of gameBoard">
+      <td *ngFor="let row of column" [ngStyle]="getCellStyle(column.length, row)">
+
+      </td>
+    </tr>
+  </table>
+</div>

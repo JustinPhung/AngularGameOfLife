@@ -1,0 +1,14 @@
+body {
+  background: #abdc28;
+}
+
+table {
+  margin: 0 auto;
+  border-collapse: collapse;
+  background: white;
+  border: solid black 1px;
+}
+td {
+  border: solid black 1px;
+}
+
