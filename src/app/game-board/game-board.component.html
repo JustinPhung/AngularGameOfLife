@@ -1,7 +1,9 @@
 <div class="container" #container>
   <table>
-    <tr *ngFor="let column of gameBoard">
-      <td *ngFor="let row of column" [ngStyle]="getCellStyle(column.length, row)">
+    <tr *ngFor="let column of gameBoard; let i = index">
+      <td *ngFor="let row of column; let j = index"
+          (click)="toggle(i,j)"
+          [ngStyle]="getCellStyle(column.length, row)">
 
       </td>
     </tr>

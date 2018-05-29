@@ -16,6 +16,10 @@ export class GameBoardComponent implements OnInit {
   ngOnInit() {
   }
 
+  toggle(i: number, j: number): void {
+    this.gameBoard[i][j] = !this.gameBoard[i][j];
+  }
+
   getCellStyle(rowsCount: number, row: boolean) {
 
     return {
