@@ -8,26 +8,11 @@ export class GameOfLifeService {
   counterRight = 0;
   counterLeft = 0;
 
-  constructor(private toast: MatSnackBar, private http: HttpClient) {
-  }
-
   /**
-   *  initalisiert ein sog. Board aus X*Y Zellen
-   *
-   * @param {number} rowSize
-   * @param {number} columnSize
-   * @returns {boolean[][]}
+   * @param {MatSnackBar} toast
+   * @param {HttpClient} http
    */
-  initializeBoard(rowSize: number, columnSize: number): boolean[][] {
-    const gameBoard = [];
-
-    for (let i = 0; i < rowSize; i++) {
-      gameBoard[i] = [];
-      for (let j = 0; j < columnSize; j++) {
-        gameBoard[i][j] = false;
-      }
-    }
-    return gameBoard;
+  constructor(private toast: MatSnackBar, private http: HttpClient) {
   }
 
   /**
@@ -63,6 +48,60 @@ export class GameOfLifeService {
     return nextBoard;
   }
 
+  /**
+   * @param {number} i
+   * @param {number} length
+   * @returns {number}
+   */
+  getPredecessor(i: number, length: number): number {
+    let result = i;
+    if (--i >= 0) {
+      --result;
+    } else {
+      result = length - 1;
+    }
+    return result;
+  }
+
+  /**
+   * @param {number} i
+   * @param {number} length
+   * @returns {number}
+   */
+  getSuccessor(i: number, length: number): number {
+    let result = i;
+    if (++i < length) {
+      ++result;
+    } else {
+      result = 0;
+    }
+    return result;
+  }
+
+  /**
+   *  initalisiert ein sog. Board aus X*Y Zellen
+   *
+   * @param {number} rowSize
+   * @param {number} columnSize
+   * @returns {boolean[][]}
+   */
+  initializeBoard(rowSize: number, columnSize: number): boolean[][] {
+    const gameBoard = [];
+
+    for (let i = 0; i < rowSize; i++) {
+      gameBoard[i] = [];
+      for (let j = 0; j < columnSize; j++) {
+        gameBoard[i][j] = false;
+      }
+    }
+    return gameBoard;
+  }
+
+  /**
+   * @param {any[]} nextBoard
+   * @param {number} i
+   * @param {number} j
+   */
   private handleGoalReached(nextBoard: any[], i: number, j: number) {
     nextBoard[i][j] = false;
     this.counterRight++;
@@ -72,6 +111,11 @@ export class GameOfLifeService {
     }
   }
 
+  /**
+   * @param {any[]} nextBoard
+   * @param {number} i
+   * @param {number} j
+   */
   private handleLostPoint(nextBoard: any[], i: number, j: number) {
     nextBoard[i][j] = false;
     this.counterLeft++;
@@ -105,26 +149,11 @@ export class GameOfLifeService {
     return (board [posX][posY] && amountOfAliveNeighbours === 2) || amountOfAliveNeighbours === 3;
   }
 
-  getPredecessor(i: number, length: number): number {
-    let result = i;
-    if (--i >= 0) {
-      --result;
-    } else {
-      result = length - 1;
-    }
-    return result;
-  }
-
-  getSuccessor(i: number, length: number): number {
-    let result = i;
-    if (++i < length) {
-      ++result;
-    } else {
-      result = 0;
-    }
-    return result;
-  }
-
+  /**
+   *
+   * @param {string} filePath
+   * @returns {Promise<boolean[][]>}
+   */
   async readFileRelative(filePath: string) {
     return new Promise<boolean[][]>((resolve, reject) => {
       this.http.get(filePath, {responseType: 'text'}).subscribe(data => {
@@ -133,6 +162,11 @@ export class GameOfLifeService {
     });
   }
 
+  /**
+   *
+   * @param file
+   * @returns {Promise<boolean[][]>}
+   */
   async readFileToGameBoard(file: any): Promise<boolean[][]> {
     return new Promise<boolean[][]>((resolve, reject) => {
       const reader = new FileReader();
@@ -146,6 +180,12 @@ export class GameOfLifeService {
     });
   }
 
+  /**
+   *
+   * @param {string | any} data
+   * @param reject
+   * @returns {any[]}
+   */
   private stringToBoolArray(data: string | any, reject) {
     const allLines = data.split(/\r\n|\n/);
     const gameBoard = [];
@@ -167,6 +207,8 @@ export class GameOfLifeService {
     return gameBoard;
   }
 
+  /**
+   */
   reset(): void {
     this.counterRight = 0;
     this.counterLeft = 0;

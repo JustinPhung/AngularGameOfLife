@@ -18,6 +18,11 @@ export class GameOfLifeComponent implements AfterViewInit {
   time = 1000;
   @ViewChild('fileInput') fileInput: ElementRef;
 
+  /**
+   * @param {GameOfLifeService} gameOfLifeService
+   * @param {HelpService} helpService
+   * @param {MatSnackBar} toast
+   */
   constructor(private gameOfLifeService: GameOfLifeService,
               private helpService: HelpService,
               private toast: MatSnackBar) {
@@ -27,33 +32,36 @@ export class GameOfLifeComponent implements AfterViewInit {
   }
 
   /**
-   * ändern der Anzahl der der Zellen stoppt die Generationsbewegung
+   * ändern der Zeit stoppt die Generationsbewegung
+   * @param event
    */
-  sizeChanged(): void {
+  changeTime(event: any) {
     if (this.isRunning) {
       this.isRunning = false;
       this.toast.open('Zum Edit Modus gewechselt.', 'Undo', {duration: 2000});
     }
+    this.time = event.value;
     clearTimeout(this.interval);
-    this.gameBoard = this.instanciateGameBoard();
     this.startInterval();
+
   }
 
-  instanciateGameBoard(): boolean[][] {
-    const newBoard = [];
-
-    for (let i = 0; i < this.rowSize; i++) {
-      newBoard[i] = i < this.gameBoard.length ? this.gameBoard[i] : [];
-      for (let j = 0; j < this.columnSize; j++) {
-        newBoard[i][j] = (i < this.gameBoard.length && j < this.gameBoard[i].length) ? this.gameBoard[i][j] : false;
-      }
+  /**
+   * @param {number | null} value
+   * @returns {any}
+   */
+  formatValue(value: number | null) {
+    if (!value) {
+      return 0;
     }
-    return newBoard;
+    return value + 'ms';
   }
 
-  toggleRunning(): void {
-    this.isRunning = !this.isRunning;
-
+  /**
+   * @returns {string}
+   */
+  getTooltip(): string {
+    return this.helpService.getTooltip();
   }
 
   /**
@@ -72,42 +80,54 @@ export class GameOfLifeComponent implements AfterViewInit {
     this.fileInput.nativeElement.value = '';
   }
 
+  /**
+   * @returns {boolean[][]}
+   */
+  instanciateGameBoard(): boolean[][] {
+    const newBoard = [];
+
+    for (let i = 0; i < this.rowSize; i++) {
+      newBoard[i] = i < this.gameBoard.length ? this.gameBoard[i] : [];
+      for (let j = 0; j < this.columnSize; j++) {
+        newBoard[i][j] = (i < this.gameBoard.length && j < this.gameBoard[i].length) ? this.gameBoard[i][j] : false;
+      }
+    }
+    return newBoard;
+  }
+
+  /**
+   */
   ngAfterViewInit(): void {
     this.startInterval();
   }
 
+  /**
+   * ändern der Anzahl der der Zellen stoppt die Generationsbewegung
+   */
+  sizeChanged(): void {
+    if (this.isRunning) {
+      this.isRunning = false;
+      this.toast.open('Zum Edit Modus gewechselt.', 'Undo', {duration: 2000});
+    }
+    clearTimeout(this.interval);
+    this.gameBoard = this.instanciateGameBoard();
+    this.startInterval();
+  }
+
+  /**
+   */
+  toggleRunning(): void {
+    this.isRunning = !this.isRunning;
+  }
+
+  /**
+   */
   startInterval(): void {
     this.interval = setInterval(
       () => {
         this.gameBoard = this.gameOfLifeService.getNextBoard(this.gameBoard, this.isRunning);
       },
       this.time);
-  }
-
-  /**
-   * ändern der Zeit stoppt die Generationsbewegung
-   * @param event
-   */
-  changeTime(event: any) {
-    if (this.isRunning) {
-      this.isRunning = false;
-      this.toast.open('Zum Edit Modus gewechselt.', 'Undo', {duration: 2000});
-    }
-    this.time = event.value;
-    clearTimeout(this.interval);
-    this.startInterval();
-
-  }
-
-  formatValue(value: number | null) {
-    if (!value) {
-      return 0;
-    }
-    return value + 'ms';
-  }
-
-  getTooltip(): string {
-    return this.helpService.getTooltip();
   }
 
 }

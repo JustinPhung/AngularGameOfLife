@@ -5,19 +5,19 @@ import {Component, OnInit} from '@angular/core';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent {
 
   displayName = 'Game of life';
 
+  /**
+   */
   constructor() {
   }
 
-  ngOnInit() {
-  }
-
+  /**
+   * @param event
+   */
   changeName(event): void {
     this.displayName = event.path[0].text;
   }
-
-
 }

@@ -6,7 +6,7 @@ import {container} from '@angular/core/src/render3/instructions';
   templateUrl: './game-board.component.html',
   styleUrls: ['./game-board.component.css']
 })
-export class GameBoardComponent implements OnInit {
+export class GameBoardComponent {
 
   @Input() gameBoard: boolean [][];
   @Input() clickable = true;
@@ -14,20 +14,20 @@ export class GameBoardComponent implements OnInit {
 
   height = 800;
 
+  /**
+   *
+   */
   constructor() {
   }
 
-  ngOnInit() {
-    console.log(this.container);
-  }
-
-  toggle(i: number, j: number): void {
-    if (!this.clickable) {
-      return;
-    }
-    this.gameBoard[i][j] = !this.gameBoard[i][j];
-  }
-
+  /**
+   *
+   * @param {number} columsCount
+   * @param {boolean} lives
+   * @param {number} i
+   * @param {number} j
+   * @returns {{width: string; height: string; 'background-color': string}}
+   */
   getCellStyle(columsCount: number, lives: boolean, i: number, j: number) {
     return {
       'width': ((this.height / columsCount) - 1) + 'px',
@@ -35,4 +35,17 @@ export class GameBoardComponent implements OnInit {
       'background-color': lives ? '#5ec8ff' : 'white'
     };
   }
+
+  /**
+   *
+   * @param {number} i
+   * @param {number} j
+   */
+  toggle(i: number, j: number): void {
+    if (!this.clickable) {
+      return;
+    }
+    this.gameBoard[i][j] = !this.gameBoard[i][j];
+  }
+
 }

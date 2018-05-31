@@ -21,6 +21,13 @@ export class SingleModeComponent implements OnInit, OnDestroy {
   private rowSize = 30;
   private level = 1;
 
+  /**
+   *
+   * @param {GameOfLifeService} gameOfLifeService
+   * @param {EnemyService} enemy
+   * @param {HelpService} helpService
+   * @param {MatSnackBar} toast
+   */
   constructor(private gameOfLifeService: GameOfLifeService,
               private enemy: EnemyService,
               private helpService: HelpService,
@@ -28,14 +35,48 @@ export class SingleModeComponent implements OnInit, OnDestroy {
     this.restart();
   }
 
-  transferPlayerBoardToGameboard(): void {
-    this.preperationBoard.forEach((column, i) => {
-        column.forEach((element, j) => {
-          this.gameBoard[i][j] = this.gameBoard[i][j] || element;
-        });
-      }
-    );
-    this.preperationBoard = this.gameOfLifeService.initializeBoard(this.rowSize, this.preperationColumnSize);
+  /**
+   */
+  ngOnInit(): void {
+    this.startIntervalGameBoard();
+    this.startIntervalOverride();
+  }
+
+  /**
+   * @returns {string}
+   */
+  getTooltip(): string {
+    return this.helpService.getTooltipGame();
+  }
+
+  /**
+   * startet ein neues Spiel und setzt die darunterliegenden Services zurück
+   */
+  restart(): void {
+    this.gameOfLifeService.reset();
+    this.enemy.reset();
+    this.gameBoard = this.gameOfLifeService.initializeBoard(this.rowSize, this.rowSize);
+    this.preperationBoard = this.gameOfLifeService.initializeBoard(this.rowSize,
+      this.preperationColumnSize);
+    this.preperationBoardEnemy = this.gameOfLifeService.initializeBoard(this.rowSize,
+      this.preperationColumnSize);
+    this.toast.open('GAME STARTED - LEVEL: ' + this.level, 'Undo', {duration: 3000});
+  }
+
+  /**
+   * @param {number} level
+   */
+  setLevel(level: number): void {
+    this.level = level;
+    if (level === 3) {
+      this.rowSize = 40;
+      this.preperationColumnSize = 10;
+      this.restart();
+    } else {
+      this.rowSize = 30;
+      this.preperationColumnSize = 5;
+      this.restart();
+    }
   }
 
   /**
@@ -60,11 +101,9 @@ export class SingleModeComponent implements OnInit, OnDestroy {
       10000);
   }
 
-  ngOnInit(): void {
-    this.startIntervalGameBoard();
-    this.startIntervalOverride();
-  }
-
+  /**
+   * @returns {Promise<void>}
+   */
   private async transferEnemyBoardToGameboard() {
     this.preperationBoardEnemy = await this.enemy.getBoard(this.level);
     this.preperationBoardEnemy.forEach((column, i) => {
@@ -77,35 +116,16 @@ export class SingleModeComponent implements OnInit, OnDestroy {
     this.preperationBoardEnemy = this.gameOfLifeService.initializeBoard(this.rowSize, this.preperationColumnSize);
   }
 
-  getTooltip(): string {
-    return this.helpService.getTooltipGame();
-  }
-
-  setLevel(level: number): void {
-    this.level = level;
-    if (level === 3) {
-      this.rowSize = 40;
-      this.preperationColumnSize = 10;
-      this.restart();
-    } else {
-      this.rowSize = 30;
-      this.preperationColumnSize = 5;
-      this.restart();
-    }
-  }
-
   /**
-   * startet ein neues Spiel und setzt die darunterliegenden Services zurück
    */
-  restart(): void {
-    this.gameOfLifeService.reset();
-    this.enemy.reset();
-    this.gameBoard = this.gameOfLifeService.initializeBoard(this.rowSize, this.rowSize);
-    this.preperationBoard = this.gameOfLifeService.initializeBoard(this.rowSize,
-      this.preperationColumnSize);
-    this.preperationBoardEnemy = this.gameOfLifeService.initializeBoard(this.rowSize,
-      this.preperationColumnSize);
-    this.toast.open('GAME STARTED - LEVEL: ' + this.level, 'Undo', {duration: 3000});
+  transferPlayerBoardToGameboard(): void {
+    this.preperationBoard.forEach((column, i) => {
+        column.forEach((element, j) => {
+          this.gameBoard[i][j] = this.gameBoard[i][j] || element;
+        });
+      }
+    );
+    this.preperationBoard = this.gameOfLifeService.initializeBoard(this.rowSize, this.preperationColumnSize);
   }
 
   /**
