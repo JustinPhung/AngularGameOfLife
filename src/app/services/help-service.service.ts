@@ -10,4 +10,10 @@ export class HelpService {
       ' Eine Kachel steht dabei für eine Zelle.' +
       ' Durch das Anklicken wechselt die Zelle ihren Zustand.';
   }
+
+  getTooltipGame() {
+    return 'Ziel des Spiels ist 3 Zellen bis zum generischen Lager zu bringen.' +
+      ' In deinem Lager kannst du Zellen zusammenstellen, ' +
+      'die alle 10 Sekunden auf die ersten Felder des Spielfeldes übertragen werden. #Convay\'sDame';
+  }
 }

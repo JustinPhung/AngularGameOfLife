@@ -1,0 +1,29 @@
+.jp-control-container{
+  float: left;
+  width: 20%;
+  height: 80vh;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+.jp-gameboard-container{
+  float: right;
+  width: 80%;
+  height: 70vh;
+}
+
+.file-container{
+  margin-bottom: 1em;
+}
+
+h4{
+  margin-top: 3em;
+}
+
+.help-container{
+  position: absolute;
+  bottom: 2em;
+}
+.custom-file-input ~ .custom-file-label::after {
+  content: "Upload";
+}

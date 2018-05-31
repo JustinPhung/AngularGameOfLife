@@ -1,0 +1,30 @@
+<div class="col-1 float-left">
+    <mat-icon svgIcon="help"
+              [matTooltip]="getTooltip()"
+              matTooltipPosition="after"
+              matTooltipHideDelay="2000"
+              matTooltipShowDelay="500">
+    </mat-icon>
+</div>
+<div class="container single-player-container" id="single-player">
+  <div class="col-md-2 float-left">
+    <p>Dein Lager</p>
+    <app-game-board [gameBoard]="preperationBoard"></app-game-board>
+  </div>
+
+  <div class="col-md-8 float-left" >
+    <p class="middle-field">Feld</p>
+    <app-game-board [gameBoard]="gameBoard" [clickable]="false"></app-game-board>
+  </div>
+
+  <div class="col-md-2 float-left">
+    <p>Gegnerisches Lager</p>
+    <app-game-board [gameBoard]="preperationBoardEnemy" [clickable]="false"></app-game-board>
+  </div>
+</div>
+<div class="col-1 float-right">
+  <button type="button" class="btn btn-primary" (click)="setLevel(1)">LEVEL 1</button>
+  <button type="button" class="btn btn-primary" (click)="setLevel(2)">LEVEL 2</button>
+  <button type="button" class="btn btn-primary" (click)="setLevel(3)">LEVEL 3</button>
+  <button type="button" class="btn btn-danger" (click)="restart()">Restart</button>
+</div>

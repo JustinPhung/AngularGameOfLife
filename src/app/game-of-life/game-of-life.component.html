@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="jp-control-container">
+    <div class="file-container">
+      <div class="custom-file">
+        <input #fileInput id="fileInput" type="file" (input)="handleInput($event)" class="custom-file-input">
+        <label for="fileInput" class="custom-file-label">Datei...</label>
+      </div>
+    </div>
+    <div>
+      <mat-form-field class="example-form-field">
+        <input matInput type="number" placeholder="Zeilen:" [(ngModel)]="rowSize" (change)="sizeChanged()"/>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="example-form-field">
+        <input matInput type="number" placeholder="Spalten:" [(ngModel)]="columnSize" (change)="sizeChanged()"/>
+      </mat-form-field>
+    </div>
+    <div>
+      <small>Geschwindigkeit:</small>
+      <mat-slider
+        thumbLabel
+        [displayWith]="formatValue"
+        [value]="time"
+        (change)="changeTime($event)"
+        tickInterval="100"
+        min="100"
+        max="3000"></mat-slider>
+    </div>
+    <div>
+      <button mat-raised-button
+              (click)="toggleRunning();">
+        {{isRunning?'Stop':'Start'}}
+      </button>
+    </div>
+    <div>
+      <h4>Modus:</h4>
+      <mat-icon svgIcon="{{isRunning ? 'play' : 'edit'}}">
+      </mat-icon>
+    </div>
+    <div class="help-container">
+      <mat-icon svgIcon="help"
+                [matTooltip]="getTooltip()"
+                matTooltipPosition="above"
+                matTooltipHideDelay="2000"
+                matTooltipShowDelay="500">
+      </mat-icon>
+    </div>
+  </div>
+  <div class="jp-gameboard-container">
+    <app-game-board [gameBoard]="gameBoard"></app-game-board>
+  </div>
+</div>

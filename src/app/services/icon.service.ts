@@ -17,5 +17,8 @@ export class IconService {
       iconRegistry.addSvgIcon(
         'help',
         sanitizer.bypassSecurityTrustResourceUrl('assets/img/question-circle.svg'));
+      iconRegistry.addSvgIcon(
+        'home',
+        sanitizer.bypassSecurityTrustResourceUrl('assets/img/home.svg'));
   }
 }

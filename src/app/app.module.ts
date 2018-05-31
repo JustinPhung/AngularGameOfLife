@@ -16,12 +16,27 @@ import {IconService} from './services/icon.service';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSliderModule} from '@angular/material/slider';
+import { MenuComponent } from './menu/menu.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {RouterModule, Routes} from '@angular/router';
+import { SingleModeComponent } from './gamification/single-mode/single-mode.component';
+import { TwoPlayerModeComponent } from './gamification/two-player-mode/two-player-mode.component';
+import { GameOfLifeComponent } from './game-of-life/game-of-life.component';
 
 
+const appRoutes: Routes = [
+  { path: 'multi-player', component: TwoPlayerModeComponent },
+  { path: 'single-player',      component: SingleModeComponent },
+  { path: '**', component: GameOfLifeComponent }
+];
 @NgModule({
   declarations: [
     AppComponent,
-    GameBoardComponent
+    GameBoardComponent,
+    MenuComponent,
+    SingleModeComponent,
+    TwoPlayerModeComponent,
+    GameOfLifeComponent
   ],
   imports: [
     FormsModule,
@@ -33,7 +48,11 @@ import {MatSliderModule} from '@angular/material/slider';
     HttpClientModule,
     MatTooltipModule,
     MatSnackBarModule,
-    MatSliderModule
+    MatSliderModule,
+    MatMenuModule,
+    RouterModule.forRoot(
+      appRoutes
+    )
   ],
   providers: [GameOfLifeService, HelpService, IconService, MatIconRegistry],
   bootstrap: [AppComponent]

@@ -1,0 +1,17 @@
+.single-player-container{
+
+}
+
+#single-player td{
+  max-height: 1em !important;
+}
+
+.middle-field{
+  text-align: center;
+  font-weight: bold;
+}
+
+button{
+  margin: 2px;
+  float: right;
+}

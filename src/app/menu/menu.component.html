@@ -1,0 +1,19 @@
+<div
+  class="inner d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow text-center">
+  <div class="col-4">
+    <button mat-button [matMenuTriggerFor]="menu">
+      <mat-icon svgIcon="home"></mat-icon>
+    </button>
+  </div>
+  <div class="col-4">
+    <h5 matTooltip="Gewidmet der Code Competition 2018 www.it-talents.de"
+        matTooltipPosition="below"
+        matTooltipHideDelay="2000"
+        matTooltipShowDelay="500">{{displayName}}</h5>
+
+  </div>
+  <mat-menu #menu="matMenu">
+    <a mat-menu-item (click)="changeName($event)" routerLink="/" routerLinkActive="active">Game of life</a>
+    <a mat-menu-item (click)="changeName($event)" routerLink="/single-player" routerLinkActive="active">Spielmodus</a>
+  </mat-menu>
+</div>
